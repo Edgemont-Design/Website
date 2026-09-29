@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sunrise Over the Mountains</title>
+<title>Sunrise Over Paris</title>
 <style>
   :root {
     --dur: 14s;
@@ -63,6 +63,11 @@
   @keyframes par2 { from {transform: translateX(-14px)} to {transform: translateX(14px)} }
   @keyframes par3 { from {transform: translateX(-26px)} to {transform: translateX(26px)} }
 
+  .ripple { animation: rip 3s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
+  @keyframes rip { from {transform: scaleX(.7); opacity:.5} to {transform: scaleX(1.1); opacity:1} }
+  .refl { animation-name: refl; }
+  @keyframes refl { 0%,25% {opacity:0} 70%,88% {opacity:.8} 100% {opacity:0} }
+
   .bird { animation: fly 14s linear infinite; }
   .bird path { animation: flap .7s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
   @keyframes fly { 0%,45% {transform: translate(-100px, 60px); opacity:0} 55% {opacity:1} 95% {transform: translate(1750px, -120px); opacity:1} 100% {opacity:0; transform: translate(1750px,-120px)} }
@@ -78,7 +83,7 @@
 </head>
 <body>
 <div class="scene">
-<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Animated sun rising over layered mountains">
+<svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Animated sun rising behind the Eiffel Tower over the Paris skyline">
   <defs>
     <linearGradient id="night" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#050818"/><stop offset="1" stop-color="#1b2250"/></linearGradient>
     <linearGradient id="dawn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b2a6b"/><stop offset=".5" stop-color="#b8548a"/><stop offset=".85" stop-color="#ff9a5a"/><stop offset="1" stop-color="#ffd27a"/></linearGradient>
@@ -125,22 +130,39 @@
     <g transform="translate(60,24)"><path d="M0 0 Q8 -8 16 0 Q24 -8 32 0"/></g>
   </g>
 
-  <!-- Mountain ridges: far to near -->
+  <!-- Paris: far skyline, Seine, Eiffel Tower, near rooftops -->
+  <defs><g id="farshapes"></g></defs>
   <g class="p1">
-    <path d="M-60 640 L120 520 L240 590 L420 440 L560 560 L700 500 L860 610 L1020 470 L1200 580 L1360 500 L1520 590 L1660 520 V900 H-60Z" fill="#6c5a92"/>
-    <path class="a warm" d="M-60 640 L120 520 L240 590 L420 440 L560 560 L700 500 L860 610 L1020 470 L1200 580 L1360 500 L1520 590 L1660 520 V700 H-60Z" fill="url(#warmg)"/>
-  </g>
-  <g class="p2">
-    <path d="M-60 720 L80 600 L260 700 L480 520 L640 660 L800 610 L980 690 L1180 540 L1340 670 L1500 590 L1660 680 V900 H-60Z" fill="#40376b"/>
-    <path class="a warm" d="M-60 720 L80 600 L260 700 L480 520 L640 660 L800 610 L980 690 L1180 540 L1340 670 L1500 590 L1660 680 V780 H-60Z" fill="url(#warmg)" opacity=".7"/>
-  </g>
-  <rect class="mist" x="-100" y="620" width="1800" height="200" fill="url(#mistg)"/>
-  <g class="p3">
-    <path d="M-80 800 L100 690 L300 780 L520 650 L720 770 L900 720 L1100 790 L1300 660 L1480 770 L1680 700 V900 H-80Z" fill="#1d1a3a"/>
-    <path d="M-80 900 V830 L200 800 L500 840 L800 810 L1100 850 L1400 815 L1680 840 V900Z" fill="#100e24"/>
+    <use href="#farshapes" fill="#6c5a92"/>
+    <use class="a warm" href="#farshapes" fill="url(#warmg)"/>
   </g>
 
-  <text class="a title" x="800" y="140" text-anchor="middle">Good Morning</text>
+  <rect class="mist" x="-100" y="660" width="1800" height="140" fill="url(#mistg)"/>
+
+  <!-- Seine with sun reflection -->
+  <rect x="0" y="780" width="1600" height="120" fill="#1a1838"/>
+  <rect class="a warm" x="0" y="780" width="1600" height="120" fill="url(#warmg)" opacity=".5"/>
+  <g class="a refl" fill="#ffe7a8">
+    <rect class="ripple" x="770" y="790" width="60" height="3"/><rect class="ripple" x="750" y="805" width="100" height="3" style="animation-delay:-.6s"/>
+    <rect class="ripple" x="730" y="822" width="140" height="3" style="animation-delay:-1.2s"/><rect class="ripple" x="700" y="842" width="200" height="4" style="animation-delay:-1.8s"/>
+    <rect class="ripple" x="670" y="866" width="260" height="4" style="animation-delay:-2.4s"/>
+  </g>
+
+  <!-- Eiffel Tower -->
+  <g id="tower" fill="#1b1836">
+    <path d="M688 782 L722 782 Q738 707 800 697 Q862 707 878 782 L912 782 L850 640 L828 520 L810 400 L803 330 L800 288 L797 330 L790 400 L772 520 L750 640 Z"/>
+    <rect x="742" y="634" width="116" height="9"/><rect x="766" y="514" width="68" height="7"/><rect x="785" y="394" width="30" height="5"/>
+    <g stroke="#1b1836" stroke-width="2" fill="none">
+      <path d="M752 650 L848 780 M848 650 L752 780"/><path d="M776 528 L824 640 M824 528 L776 640"/>
+    </g>
+    <g class="a stars" fill="#ffd97a"><circle class="star" cx="800" cy="286" r="3"/><circle class="star" cx="800" cy="520" r="2"/><circle class="star" cx="760" cy="640" r="2"/><circle class="star" cx="840" cy="640" r="2"/><circle class="star" cx="720" cy="740" r="2"/><circle class="star" cx="880" cy="740" r="2"/></g>
+  </g>
+
+  <g id="near" fill="#1d1a3a"></g>
+  <g id="windows" class="a stars" fill="#ffc861"></g>
+  <path d="M0 900 V878 H1600 V900Z" fill="#100e24"/>
+
+  <text class="a title" x="800" y="140" text-anchor="middle">Bonjour, Paris</text>
 </svg>
 </div>
 <script>
@@ -156,6 +178,36 @@
       c.setAttribute('class', 'star');
       c.style.animationDelay = (-rnd() * 3).toFixed(2) + 's';
       g.appendChild(c);
+    }
+  })();
+
+  // Skyline: Haussmann-style blocks plus landmarks, generated deterministically.
+  (function () {
+    var ns = 'http://www.w3.org/2000/svg', s = 42;
+    function rnd() { s = (s * 16807) % 2147483647; return s / 2147483647; }
+    function el(parent, tag, attrs) { var e = document.createElementNS(ns, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; }
+    var far = document.getElementById('farshapes'), near = document.getElementById('near'), win = document.getElementById('windows');
+    // far blocks
+    for (var x = -60; x < 1660; x += 46 + rnd() * 30) {
+      var w = 46 + rnd() * 30, h = 50 + rnd() * 45, top = 700 - h;
+      el(far, 'polygon', {points: [x, 700, x, top + 12, x + 8, top, x + w - 8, top, x + w, top + 12, x + w, 700].join(' ')});
+      if (rnd() > .6) el(far, 'rect', {x: x + w * .3, y: top - 12, width: 5, height: 12});
+    }
+    // Sacre-Coeur
+    el(far, 'path', {d: 'M190 700 V630 H270 V700Z M198 630 Q198 590 230 584 Q262 590 262 630Z M168 660 Q168 636 184 632 Q200 636 200 660Z M260 660 Q260 636 276 632 Q292 636 292 660Z M229 584 V556 L232 556 V584Z'});
+    // Notre-Dame
+    el(far, 'path', {d: 'M1170 700 V620 H1290 V700Z M1188 620 V572 H1210 V620Z M1230 620 V572 H1252 V620Z M1216 620 V590 L1224 560 L1232 590 V620Z'});
+    // Les Invalides
+    el(far, 'path', {d: 'M1380 700 V636 H1470 V700Z M1392 636 V612 Q1392 570 1425 566 Q1458 570 1458 612 V636Z M1424 566 V532 L1426 532 V566Z'});
+    // near rooftops (mansard) with lit windows
+    var x2 = -20;
+    while (x2 < 1620) {
+      var w2 = 70 + rnd() * 50, h2 = 90 + rnd() * 55, t2 = 835 - h2, rh = 22;
+      el(near, 'polygon', {points: [x2, 835, x2, t2 + rh, x2 + 10, t2, x2 + w2 - 10, t2, x2 + w2, t2 + rh, x2 + w2, 835].join(' ')});
+      for (var wy = t2 + rh + 8; wy < 815; wy += 22)
+        for (var wx = x2 + 10; wx < x2 + w2 - 12; wx += 18)
+          if (rnd() > .55) el(win, 'rect', {x: wx, y: wy, width: 7, height: 10});
+      x2 += w2 + 2;
     }
   })();
 </script>
